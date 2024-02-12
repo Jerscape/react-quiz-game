@@ -26,7 +26,10 @@ export default class Game extends Component {
       const questions = await loadQuestions();
       console.log(questions)
 
-      this.setState({ questions, currentQuestion: questions[0]})
+      this.setState({ questions, 
+        currentQuestion: questions[0],
+        loading: false
+      })
     } catch (err) {
       console.error(err)
     }
