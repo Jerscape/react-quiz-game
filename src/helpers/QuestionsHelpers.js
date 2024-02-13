@@ -19,6 +19,7 @@ export const loadQuestions = async(
 }
 
 const convertQuestionsFromAPI = (rawQuestions) => {
+  console.log("conver question triggered")
   return rawQuestions.map(loadedQuestion => {
     const formattedQuestion = {
       question: loadedQuestion.question,

@@ -14,6 +14,7 @@ export default class Game extends Component {
       currentQuestion: null,
       loading: true
     }
+    this.count = 0; 
   }
 
   
@@ -25,28 +26,34 @@ export default class Game extends Component {
       //when using asynch you need to put await before calling other functions (I think)
       const questions = await loadQuestions();
       console.log(questions)
+        this.setState({ 
+          questions
+        },this.changeQuestion(this.count) )
+        console.log("try catch questions: ", questions)
+      } catch (err) {
+        console.error(err)
+      }
+    
 
-      this.setState({ questions, 
-        currentQuestion: questions[0],
-        loading: false
-      })
-    } catch (err) {
-      console.error(err)
-    }
+  }
+
+    changeQuestion = (count) => {
     
-    //alternative but less intuitive way to do it
-    // fetch(url)
-    //   .then(res => {
-    //     console.log(res)
-    
-    //     return res.json();
-    //   })
-    //   .then(({results})=> {
-    //     console.log(results)
-    //   })
-    //   .catch( err => {
-    //     console.log(err)
-    //   })
+    console.log(`Change question triggered count: ${count + 1}`)
+
+    const randomQuestionIndex = Math.floor(Math.random() * this.state.questions.length)
+    console.log("random question index: ", randomQuestionIndex)
+    const currentQuestion = this.state.questions[randomQuestionIndex]
+    console.log("questions: ", this.state.questions)
+    const remainingQuestions = [...this.state.questions]
+    remainingQuestions.splice(randomQuestionIndex, 1)
+
+    console.log("remaining questions:", remainingQuestions)
+
+    this.setState({
+      questions: remainingQuestions, 
+      currentQuestion, 
+      loading: false })
   }
 
   render() {
