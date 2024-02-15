@@ -28,7 +28,7 @@ export default class Game extends Component {
       console.log("try: ",questions)
         this.setState({ 
           questions
-        },this.changeQuestion(this.count) )
+        }, () => this.changeQuestion(this.count) )
         console.log("catch questions: ", questions)
       } catch (err) {
         console.error(err)

@@ -8,10 +8,13 @@ export default function Question({question, changeQuestion}) {
   const [selectedAnswer, setSelectedAnswer] = useState(-1)
   const [answering, setAnswering] = useState(false);
 
-  const checkAnswer = (question, selectedAnswer) => {
+  const checkAnswer = (selectedAnswer) => {
+    console.log("Selected Answered in check answer: ", selectedAnswer)
+    console.log("answering state before:", answering)
     if(answering) return;
     setAnswering(true);
     setSelectedAnswer(selectedAnswer)
+    console.log("answering state AFTER:", answering)
 
 
     const classToApply = selectedAnswer === question.answer ? 'correct' : 'incorrect';
@@ -29,6 +32,7 @@ export default function Question({question, changeQuestion}) {
 
   //I can't help but wonder if we couldnt map this instead?
   return(
+    
     <div>
       {/* dangerouslySetInnerHTML is a way to format better so you don't get the % and stuff in the h2
       we are set it to an object where the html property is the choice */}
@@ -36,10 +40,17 @@ export default function Question({question, changeQuestion}) {
       {/* <h2>{question.question}</h2> */}
     
         {question.answerChoices.map((choice, index) => (
+           
             <div key={index} 
                 className={`choice-container ${selectedAnswer === index && 
                     classToApply}`}
-                  onClick={()=> checkAnswer(index)}
+                  
+                    onClick={() => {
+                      console.log('Answer choice clicked:', choice); // Log the clicked choice
+                      console.log("index in click:", index)
+                      checkAnswer(index);
+                      
+                  }}
                 // className="choice-container"
               >
               <p className="choice-prefix">{index + 1}</p>
