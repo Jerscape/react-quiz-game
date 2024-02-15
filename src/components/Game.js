@@ -25,11 +25,11 @@ export default class Game extends Component {
     try {
       //when using asynch you need to put await before calling other functions (I think)
       const questions = await loadQuestions();
-      console.log(questions)
+      console.log("try: ",questions)
         this.setState({ 
           questions
         },this.changeQuestion(this.count) )
-        console.log("try catch questions: ", questions)
+        console.log("catch questions: ", questions)
       } catch (err) {
         console.error(err)
       }
@@ -63,7 +63,7 @@ export default class Game extends Component {
         {/* do not display unless current questions is there */}
         {this.state.loading && <div id="loader"/>}
         {this.state.currentQuestion && (
-           <Question question={this.state.currentQuestion}/>
+           <Question question={this.state.currentQuestion} changeQuestion={this.changeQuestion}/>
         )}
        
         
