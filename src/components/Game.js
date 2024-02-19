@@ -1,4 +1,4 @@
-import React, { Component} from 'react'
+import React, { Component } from 'react';
 import Question from './Question';
 import HUD from './huds';
 import { loadQuestions } from '../helpers/QuestionsHelpers';
@@ -16,41 +16,41 @@ export default class Game extends Component {
       loading: true,
       score: 0,
       questionNumber: 0
-    }
-    
+    };
+
   }
 
-  
+
   //the componentDiMount function trigger when teh components is ead
   //ie JN it seems like a load event?
-  async componentDidMount(){
-    
+  async componentDidMount() {
+
     try {
       //when using asynch you need to put await before calling other functions (I think)
       const questions = await loadQuestions();
-      console.log("try: ",questions)
-        this.setState({ 
-          questions
-        }, () => this.changeQuestion(this.count) )
-        console.log("catch questions: ", questions)
-      } catch (err) {
-        console.error(err)
-      }
-    
+      console.log("try: ", questions);
+      this.setState({
+        questions
+      }, () => this.changeQuestion(this.count));
+      console.log("catch questions: ", questions);
+    } catch (err) {
+      console.error(err);
+    }
+
 
   }
 
-    changeQuestion = (bonus = 0) => {
-    
+  changeQuestion = (bonus = 0) => {
+
     // console.log(`Change question triggered count: ${count + 1}`)
-    console.log("bonus in changeQuestion", bonus)
+    console.log("bonus in changeQuestion", bonus);
 
-    const randomQuestionIndex = Math.floor(Math.random() * this.state.questions.length)
-    const currentQuestion = this.state.questions[randomQuestionIndex]
-    const remainingQuestions = [...this.state.questions]
-    remainingQuestions.splice(randomQuestionIndex, 1)
+    const randomQuestionIndex = Math.floor(Math.random() * this.state.questions.length);
+    const currentQuestion = this.state.questions[randomQuestionIndex];
+    const remainingQuestions = [...this.state.questions];
+    remainingQuestions.splice(randomQuestionIndex, 1);
 
-    console.log("remaining questions:", remainingQuestions)
+    console.log("remaining questions:", remainingQuestions);
 
     // this.setState(prevState => ({
     //   questions: remainingQuestions,
@@ -59,44 +59,49 @@ export default class Game extends Component {
     //   score: prevState.score + bonus // Correct way to update score based on previous state
     // }))
 
-    this.setState((prevState) =>({
+    this.setState((prevState) => ({
       questions: remainingQuestions,
       currentQuestion,
       loading: false,
       score: prevState.score + bonus,
-      questionNumber: prevState.currentQuestion + 1
+      questionNumber: prevState.questionNumber + 1
 
-    }))
+    }));
 
     setTimeout(() => {
-      console.log("this state score", this.state.score)
-    }, 1000)
+      console.log("this state score", this.state.score);
+    }, 1000);
 
     // this.setState({
     //   questions: remainingQuestions, 
     //   currentQuestion, 
     //   loading: false })
-  }
+  };
 
   render() {
     return (
       <>
         <h2>Game</h2>
-       
-        {/* do not display unless current questions is there */}
-        {this.state.loading && <div id="loader"/>}
-        <HUD score={this.state.score} questionNumber={this.state.questionNumber}>
-          score={this.state.score}
-          questionNumber={this.state.questionNumber}
 
-        </HUD>
+        {/* do not display unless current questions is there */}
+        {this.state.loading && <div id="loader" />}
+
+
         {this.state.currentQuestion && (
-           <Question question={this.state.currentQuestion} 
-           changeQuestion={this.changeQuestion}/>
+
+          <>
+            <HUD
+              score={this.state.score}
+              questionNumber={this.state.questionNumber}
+            />
+            <Question question={this.state.currentQuestion}
+              changeQuestion={this.changeQuestion} />
+          </>
+
         )}
-       
-        
+
+
       </>
-    )
+    );
   }
 }
