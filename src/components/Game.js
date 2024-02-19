@@ -1,5 +1,6 @@
 import React, { Component} from 'react'
 import Question from './Question';
+import HUD from './huds';
 import { loadQuestions } from '../helpers/QuestionsHelpers';
 
 
@@ -13,7 +14,8 @@ export default class Game extends Component {
       questions: [],
       currentQuestion: null,
       loading: true,
-      score: 0
+      score: 0,
+      questionNumber: 0
     }
     
   }
@@ -61,7 +63,8 @@ export default class Game extends Component {
       questions: remainingQuestions,
       currentQuestion,
       loading: false,
-      score: prevState.score + bonus
+      score: prevState.score + bonus,
+      questionNumber: prevState.currentQuestion + 1
 
     }))
 
@@ -79,10 +82,12 @@ export default class Game extends Component {
     return (
       <>
         <h2>Game</h2>
+       
         {/* do not display unless current questions is there */}
         {this.state.loading && <div id="loader"/>}
         {this.state.currentQuestion && (
-           <Question question={this.state.currentQuestion} changeQuestion={this.changeQuestion}/>
+           <Question question={this.state.currentQuestion} 
+           changeQuestion={this.changeQuestion}/>
         )}
        
         
