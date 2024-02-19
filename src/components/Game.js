@@ -85,6 +85,11 @@ export default class Game extends Component {
        
         {/* do not display unless current questions is there */}
         {this.state.loading && <div id="loader"/>}
+        <HUD score={this.state.score} questionNumber={this.state.questionNumber}>
+          score={this.state.score}
+          questionNumber={this.state.questionNumber}
+
+        </HUD>
         {this.state.currentQuestion && (
            <Question question={this.state.currentQuestion} 
            changeQuestion={this.changeQuestion}/>
