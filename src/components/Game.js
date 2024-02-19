@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Question from './Question';
 import HUD from './huds';
+import SaveScoreForm from './SaveScoreForm';
 import { loadQuestions } from '../helpers/QuestionsHelpers';
 
 
@@ -15,7 +16,8 @@ export default class Game extends Component {
       currentQuestion: null,
       loading: true,
       score: 0,
-      questionNumber: 0
+      questionNumber: 0,
+      done: false
     };
 
   }
@@ -42,7 +44,12 @@ export default class Game extends Component {
 
   changeQuestion = (bonus = 0) => {
 
-    // console.log(`Change question triggered count: ${count + 1}`)
+    //if no more questions, game is done (short circuit)
+    if (this.state.questions.length === 0) {
+      this.setState({ done: true });
+      return;
+    }
+
     console.log("bonus in changeQuestion", bonus);
 
     const randomQuestionIndex = Math.floor(Math.random() * this.state.questions.length);
@@ -83,11 +90,12 @@ export default class Game extends Component {
       <>
         <h2>Game</h2>
 
+        <SaveScoreForm></SaveScoreForm>
         {/* do not display unless current questions is there */}
-        {this.state.loading && <div id="loader" />}
+        {this.state.loading && !this.state.done && <div id="loader" />}
 
 
-        {this.state.currentQuestion && (
+        {!this.state.done && !this.state.loading && this.state.currentQuestion && (
 
           <>
             <HUD
@@ -97,9 +105,9 @@ export default class Game extends Component {
             <Question question={this.state.currentQuestion}
               changeQuestion={this.changeQuestion} />
           </>
-
         )}
 
+        {this.state.done && <h1>DONE!!</h1>}
 
       </>
     );
