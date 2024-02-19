@@ -12,9 +12,10 @@ export default class Game extends Component {
     this.state = {
       questions: [],
       currentQuestion: null,
-      loading: true
+      loading: true,
+      score: 0
     }
-    this.count = 0; 
+    
   }
 
   
@@ -37,23 +38,41 @@ export default class Game extends Component {
 
   }
 
-    changeQuestion = (count) => {
+    changeQuestion = (bonus = 0) => {
     
-    console.log(`Change question triggered count: ${count + 1}`)
+    // console.log(`Change question triggered count: ${count + 1}`)
+    console.log("bonus in changeQuestion", bonus)
 
     const randomQuestionIndex = Math.floor(Math.random() * this.state.questions.length)
-    console.log("random question index: ", randomQuestionIndex)
     const currentQuestion = this.state.questions[randomQuestionIndex]
-    console.log("questions: ", this.state.questions)
     const remainingQuestions = [...this.state.questions]
     remainingQuestions.splice(randomQuestionIndex, 1)
 
     console.log("remaining questions:", remainingQuestions)
 
-    this.setState({
-      questions: remainingQuestions, 
-      currentQuestion, 
-      loading: false })
+    // this.setState(prevState => ({
+    //   questions: remainingQuestions,
+    //   currentQuestion,
+    //   loading: false,
+    //   score: prevState.score + bonus // Correct way to update score based on previous state
+    // }))
+
+    this.setState((prevState) =>({
+      questions: remainingQuestions,
+      currentQuestion,
+      loading: false,
+      score: prevState.score + bonus
+
+    }))
+
+    setTimeout(() => {
+      console.log("this state score", this.state.score)
+    }, 1000)
+
+    // this.setState({
+    //   questions: remainingQuestions, 
+    //   currentQuestion, 
+    //   loading: false })
   }
 
   render() {

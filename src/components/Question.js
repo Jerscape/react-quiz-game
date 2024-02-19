@@ -10,23 +10,24 @@ export default function Question({question, changeQuestion}) {
 
   const checkAnswer = (selectedAnswer) => {
     console.log("Selected Answered in check answer: ", selectedAnswer)
-    console.log("answering state before:", answering)
+    // console.log("answering state before:", answering)
     if(answering) return;
     setAnswering(true);
     setSelectedAnswer(selectedAnswer)
-    console.log("answering state AFTER:", answering)
+    // console.log("answering state AFTER:", answering)
 
 
     const classToApply = selectedAnswer === question.answer ? 'correct' : 'incorrect';
     setClassToApply(classToApply)
     const bonus = selectedAnswer === question.answer ? 10 : 0
+    console.log("bonus after assignment", bonus)
 
 
     setTimeout( () => {
       setSelectedAnswer(-1)
       setAnswering(false)
-      changeQuestion()
-    }, 1000)
+      changeQuestion(bonus)
+    }, 2000)
 
   }
 
