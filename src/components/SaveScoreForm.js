@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function SaveScoreForm({ score }) {
 
@@ -23,7 +24,7 @@ export default function SaveScoreForm({ score }) {
 
   return (
     <div>
-      <h1>Score:</h1>
+      <h1>Score: {score}</h1>
       <form  onSubmit={saveHighScore}>
         <input
           type="text"
@@ -35,6 +36,9 @@ export default function SaveScoreForm({ score }) {
         />
         <button type="submit">Save</button>
       </form>
+      <Link to="/" className="btn">
+        Go Home
+      </Link>
     </div>
   );
 }

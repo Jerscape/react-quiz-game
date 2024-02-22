@@ -46,8 +46,12 @@ export default class Game extends Component {
 
     //if no more questions, game is done (short circuit)
     if (this.state.questions.length === 0) {
-      this.setState({ done: true });
-      return;
+      return this.setState((prevState) => ({
+        done: true,
+        score: prevState.score + bonus
+  
+      }));
+    
     }
 
     console.log("bonus in changeQuestion", bonus);
@@ -86,28 +90,30 @@ export default class Game extends Component {
   };
 
   render() {
+    const {loading, done, score, currentQuestion, questionNumber} = this.state;
     return (
       <>
         <h2>Game</h2>
 
-        <SaveScoreForm></SaveScoreForm>
         {/* do not display unless current questions is there */}
-        {this.state.loading && !this.state.done && <div id="loader" />}
+        {loading && !done && <div id="loader" />}
 
 
-        {!this.state.done && !this.state.loading && this.state.currentQuestion && (
-
+        {!done && !loading && currentQuestion && (
+          
           <>
             <HUD
-              score={this.state.score}
-              questionNumber={this.state.questionNumber}
+              score={score}
+              questionNumber={questionNumber}
             />
-            <Question question={this.state.currentQuestion}
+            <Question question={currentQuestion}
+            // he specifically left the this.change quesiton (ie not destructured here)
               changeQuestion={this.changeQuestion} />
           </>
         )}
 
-        {this.state.done && <h1>DONE!!</h1>}
+        {/* in this context, the thing after teh END will display if the condition to the left is true */}
+        {this.state.done && <SaveScoreForm score={this.state.score}/>}
 
       </>
     );
